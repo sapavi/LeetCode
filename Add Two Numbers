@@ -1,0 +1,52 @@
+/**
+struct ListNode {
+    int val;
+    ListNode *next;
+    ListNode() : val(0), next(nullptr) {}
+    ListNode(int x) : val(x), next(nullptr) {}
+    ListNode(int x, ListNode *next) : val(x), next(next) {}
+};
+*/
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        if (l1 == nullptr) {
+            return l2;
+        }
+        if (l2 == nullptr) {
+            return l1;
+        }
+        int tmp = l1->val + l2->val;
+        return new ListNode(tmp % 10, RecAddTwoNumbers(l1->next, l2->next, tmp / 10));
+    }
+
+    ListNode* RecAddTwoNumbers(ListNode* l1, ListNode* l2, int mod) {
+        ListNode* tmpl1, *tmpl2;
+        if (l1 == nullptr) {
+            if (l2 == nullptr){
+                if(mod == 0){
+                    return nullptr;
+                }
+                else{
+                    return new ListNode(mod);
+                }
+            }
+            else{
+                tmpl1 = new ListNode();
+            }
+        }
+        else {
+            tmpl1 = new ListNode(l1->val, l1->next);
+        }
+        if (l2 == nullptr) {
+            tmpl2 = new ListNode();
+        }else {
+            tmpl2 = new ListNode(l2->val, l2->next);
+        }
+        int tmp = tmpl1->val + tmpl2->val + mod;
+        ListNode* sul = new ListNode(tmp % 10, RecAddTwoNumbers(tmpl1->next, tmpl2->next, tmp / 10));
+        delete tmpl1;
+        delete tmpl2;
+        return sul;
+    }
+};
