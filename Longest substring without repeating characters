@@ -1,0 +1,22 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        int max;
+        max = s.empty() ? 0 : 1;
+        for (std::string::iterator it_i = s.begin(); it_i != s.end(); it_i++){
+            std::string tmp ="";
+            tmp.push_back(*it_i);
+            std::string::iterator it_j =it_i+1;
+            for(; it_j != s.end(); it_j++){
+                if (tmp.find(*it_j) == string::npos) {
+                    tmp.push_back(*it_j);
+                }
+                else {
+                    break;
+                }
+            }
+            if(it_j - it_i > max) max = it_j - it_i;
+        }
+        return max;
+    }
+};
