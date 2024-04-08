@@ -1,0 +1,13 @@
+class Solution {
+public:
+    bool isPalindrome(int x) {
+        string tmp = std::to_string(x);
+        while(!tmp.empty()){
+            if(tmp.back()!=tmp.front()) return false;
+            if (tmp.size()==1) return true;
+            tmp.erase(0,1);
+            tmp.pop_back();
+        }
+        return true;
+    }
+};
