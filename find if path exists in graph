@@ -1,0 +1,36 @@
+class Solution {
+public:
+    vector<vector<int>> find_neighbor(vector<vector<int>>& edges, int source, int destination){
+        vector<vector<int>> neighbor;
+        for (int i = 0; i < edges.size(); i++){
+            if(edges[i][0] == source || edges[i][1] == source){
+                if(edges[i][0] == destination || edges[i][1] == destination){
+                    neighbor.insert(neighbor.begin(), edges[i]);
+                }
+                else{
+                    neighbor.push_back(edges[i]);
+                }
+                edges.erase(edges.begin()+i);
+                i--;
+            }
+        }
+        return neighbor;
+    }
+    
+    bool validPath(int n, vector<vector<int>>& edges, int source, int destination) {
+        if (source == destination) return true;
+        if (edges.size() == 0) return false;
+        vector<vector<int>> source_neighbor = find_neighbor(edges,source,destination);
+        bool ret = false;
+        for(int i = 0; i < source_neighbor.size(); i++){
+            if(source_neighbor[i][0] == source){
+                ret = validPath(n, edges, source_neighbor[i][1], destination);
+            }
+            else{
+                ret = validPath(n, edges, source_neighbor[i][0], destination);
+            }
+            if (ret) return ret;
+        }
+        return false;
+    }
+};
