@@ -1,0 +1,40 @@
+class Solution {
+public:
+    
+    int openLock(vector<string>& deadends, string target) {
+        for (int i = 0; i < deadends.size(); i++) if (deadends[i] == "0000") return -1;
+        if (target == "0000") return 0;
+        int moves = 0;
+        queue<string> q;
+        unordered_set<string> visited;
+        q.push("0000");
+        visited.insert("0000");
+        while(!q.empty()){
+            int size = q.size();
+            for (int i = 0; i < size; i++){
+                string curr = q.front();
+                q.pop();
+                if(curr == target) return moves;
+
+                for(int j = 0; j < 4 ; j++){
+                    for(int k = -1; k <= 1 ; k+=2){
+                        string next = curr;
+                        next[j] = (next[j]-'0' + k + 10)%10 +'0';
+                        if(!visited.count(next)){
+                            bool flag = false;
+                            for (int p = 0; p<deadends.size(); p++){
+                                if (next == deadends[p]) flag = true;
+                            }
+                            if (!flag){
+                                q.push(next);
+                                visited.insert(next);
+                            }
+                        }
+                    }
+                }
+            }
+            moves++;
+        }
+        return -1;
+    }
+};
